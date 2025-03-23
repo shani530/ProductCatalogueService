@@ -39,11 +39,11 @@ public class FakeStoreImpl implements ProductService{
         RestTemplate restTemplate = restTemplateBuilder.build();
             ResponseEntity<FakeStoreProductDto[]> fakeStoreDtoResponseEntity =
                     restTemplate.getForEntity("https://fakestoreapi.com/products", FakeStoreProductDto[].class);
-        List<Product> productListlist = new ArrayList<>();
+        List<Product> productList = new ArrayList<>();
         for (FakeStoreProductDto fakeStoreProductDto : fakeStoreDtoResponseEntity.getBody()){
-            productListlist.add(convertFakeStoreDtoToProduct(fakeStoreProductDto));
+            productList.add(convertFakeStoreDtoToProduct(fakeStoreProductDto));
         }
-            return productListlist;
+            return productList;
     }
 
 

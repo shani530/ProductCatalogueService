@@ -16,14 +16,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
 
 @RestController
 public class ProductController {
 
     @Autowired
     ProductService productService;
-    @GetMapping("products")
+    @GetMapping("/products")
       public List<ProductDto> getAllProducts(){
         List<ProductDto> productDtoList = new ArrayList<>();
         List<Product> productList = productService.getAllProducts();
@@ -64,16 +64,18 @@ public class ProductController {
     }
     public ProductDto convertProductToProductDTO(Product product){
         ProductDto productDto = new ProductDto();
-        productDto.setId(productDto.getId());
+        productDto.setId(product.getId());
+        productDto.setName(product.getName());
         productDto.setCategory(product.getCategory());
         productDto.setDescription(product.getDescription());
-        productDto.setPrice(productDto.getPrice());
+        productDto.setPrice(product.getPrice());
         productDto.setImageUrl(product.getImageUrl());
         return productDto;
     }
     public Product convertProductDTOToProduct(ProductDto productDto){
         Product product= new Product();
         product.setId(productDto.getId());
+        product.setName(productDto.getName());
         product.setCategory(productDto.getCategory());
         product.setDescription(productDto.getDescription());
         product.setPrice(productDto.getPrice());
