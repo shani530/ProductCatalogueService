@@ -5,7 +5,6 @@ import com.example.productcatalogueservice.dtos.ProductDto;
 import com.example.productcatalogueservice.models.Product;
 import com.example.productcatalogueservice.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -17,8 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.example.productcatalogueservice.models.State.ACTIVE;
+import java.util.Optional;
 
 @RestController
 public class ProductController {
@@ -51,24 +49,18 @@ public class ProductController {
     }
     @PutMapping("/products/{id}")
     public ProductDto replaceProduct(@PathVariable Long id, @RequestBody ProductDto productDto){
-        //ProductDto productDtoNew = new ProductDto();
-/*        productDto.setId(id);
-        productDto.setName("Apple 16");
-        productDto.setPrice(3000);
-        productDto.setImageUrl("slash/get/image");*/
         Product product = convertProductDTOToProduct(productDto);
         productService.replaceProduct(id , product);
         return productDto;
     }
     @DeleteMapping("/products/{id}")
-    public String deleteProduct(@PathVariable Long id){
-
-        return "Deleted successfully";
+    public void deleteProduct(@PathVariable Long id){
+        productService.deleteProduct(id);
     }
     @PatchMapping("/products/{id}")
-    public ProductDto updateProduct(@PathVariable Long id, @RequestBody ProductDto productDTO){
-        productDTO.setPrice(2000);
-        return productDTO;
+    public ProductDto updateProduct(@PathVariable Long id, @RequestBody Product product){
+        productService.updateProduct(id, product);
+        return convertProductToProductDTO(product);
     }
     public ProductDto convertProductToProductDTO(Product product){
         ProductDto productDto = new ProductDto();

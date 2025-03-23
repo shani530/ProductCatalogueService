@@ -1,6 +1,7 @@
 package com.example.productcatalogueservice.service;
 
 import com.example.productcatalogueservice.dtos.FakeStoreProductDto;
+import com.example.productcatalogueservice.dtos.ProductDto;
 import com.example.productcatalogueservice.models.Category;
 import com.example.productcatalogueservice.models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Primary
@@ -68,6 +70,20 @@ public class FakeStoreImpl implements ProductService{
             }
             return null;
     }
+
+    @Override
+    public void deleteProduct(Long id) {
+        RestTemplate restTemplate = restTemplateBuilder.build();
+        restTemplate.delete("https://fakestoreapi.com/products/{id}", id);
+    }
+
+    @Override
+    public void updateProduct(Long id, Product product) {
+        RestTemplate restTemplate = restTemplateBuilder.build();
+        FakeStoreProductDto fakeStoreProductDto = convertProductToFakeStoreDto(product);
+        restTemplate.put("https://fakestoreapi.com/products/{id}", fakeStoreProductDto, id);
+    }
+
 
     private FakeStoreProductDto convertProductToFakeStoreDto(Product product){
         FakeStoreProductDto fakeStoreProductDto = new FakeStoreProductDto();

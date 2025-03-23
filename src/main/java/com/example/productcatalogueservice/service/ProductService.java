@@ -2,9 +2,9 @@ package com.example.productcatalogueservice.service;
 
 import com.example.productcatalogueservice.dtos.ProductDto;
 import com.example.productcatalogueservice.models.Product;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 
 public interface ProductService {
@@ -13,4 +13,10 @@ public interface ProductService {
 
 
     Product getProductById(Long id);
+
+    void deleteProduct(Long id);
+
+    void updateProduct(Long id, Product product);
+
+
 }
