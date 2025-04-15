@@ -13,7 +13,13 @@ public class FakeStoreProductDto {
     String category;
     String image;
 
-    public FakeStoreProductDto(long l, String s, String s1, double v, String image1, String category1) {
+    public FakeStoreProductDto(Long id, String title, String description, Double price, String category, String image) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.price = price;
+        this.category = category;
+        this.image = image;
     }
 
     public FakeStoreProductDto() {

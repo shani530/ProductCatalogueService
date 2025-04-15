@@ -43,9 +43,10 @@ public class ProductController {
 
     }
     @PostMapping("/products")
-    public ProductDto postProduct( @RequestBody ProductDto productDto){
-
-        return productDto;
+    public ProductDto postProduct( @RequestBody ProductDto productDto) throws Exception {
+        Product product = convertProductDTOToProduct(productDto);
+        Product pdtResponse = productService.createProduct(product);
+        return convertProductToProductDTO(pdtResponse);
     }
     @PutMapping("/products/{id}")
     public ProductDto replaceProduct(@PathVariable Long id, @RequestBody ProductDto productDto){

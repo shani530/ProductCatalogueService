@@ -52,6 +52,12 @@ public class ProductCatalogueImpl implements ProductService{
          }
     }
 
+    @Override
+    public Product createProduct(Product product) {
+        productCatalogueRepo.save(product);
+        return product;
+    }
+
 
 }
 

@@ -23,16 +23,25 @@ public class Product extends BaseModel{
     private State state;
 
 
-    public Product(long l, String product1, String description1, double v) {
-        super();
-    }
-
     public Product() {
 
     }
-
-    public Product(long l, String s, String s1, double v, String image1, Object o) {
+    public Product(long id, String name,  String description, String imageUrl, double price) {
         super();
+        this.name = name;
+        this.description = description;
+        this.imageUrl = imageUrl;
+        this.price = price;
     }
+
+    // Constructor 2: Matching (long id, String name, double price, String imageUrl)
+    public Product(long id, String name, double price, String imageUrl) {
+        super();
+        this.name = name;
+        this.price = price;
+        this.imageUrl = imageUrl;
+    }
+
+
 }
 

@@ -50,7 +50,7 @@ public class FakeStoreImpl implements ProductService{
     public Product replaceProduct(Long id ,Product product ){
         FakeStoreProductDto fakeStoreProductDto = convertProductToFakeStoreDto(product);
         ResponseEntity<FakeStoreProductDto> responseEntity =
-                putForEntity("https://fakestoreapi.com/products", HttpMethod.PUT, fakeStoreProductDto, FakeStoreProductDto.class, id);
+                putForEntity("https://fakestoreapi.com/products/{id}", HttpMethod.PUT, fakeStoreProductDto, FakeStoreProductDto.class, id);
         FakeStoreProductDto  fakeStoreProductDtoResp = responseEntity.getBody();
         Product replacedProduct = convertFakeStoreDtoToProduct(fakeStoreProductDtoResp);
         return replacedProduct;
@@ -82,6 +82,27 @@ public class FakeStoreImpl implements ProductService{
         RestTemplate restTemplate = restTemplateBuilder.build();
         FakeStoreProductDto fakeStoreProductDto = convertProductToFakeStoreDto(product);
         restTemplate.put("https://fakestoreapi.com/products/{id}", fakeStoreProductDto, id);
+    }
+
+    @Override
+    public Product createProduct(Product product) throws Exception {
+        RestTemplate restTemplate = restTemplateBuilder.build();
+        FakeStoreProductDto fakeStoreProductDto = convertProductToFakeStoreDto(product);
+        ResponseEntity<FakeStoreProductDto> responseEntity =
+                restTemplate.postForEntity("https://fakestoreapi.com/products", fakeStoreProductDto, FakeStoreProductDto.class);
+        if(responseEntity.getStatusCode().equals(HttpStatusCode.valueOf(200))){
+            return convertFakeStoreDtoToProduct(responseEntity.getBody());
+        }
+        // Handle the case when the response is not successful
+        // You can throw an exception or return null based on your requirements
+        // For example, you can throw a custom exception:
+        // throw new CustomException("Failed to create product");
+        // Or you can return null:
+        // throw new RuntimeException("Failed to create product");
+        // Or you can return null:
+
+
+        throw new Exception("Failed to create product");
     }
 
 

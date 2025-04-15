@@ -19,4 +19,5 @@ public interface ProductService {
     void updateProduct(Long id, Product product);
 
 
+    Product createProduct(Product product) throws Exception;
 }
