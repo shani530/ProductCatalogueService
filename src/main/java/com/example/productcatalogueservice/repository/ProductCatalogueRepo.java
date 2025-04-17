@@ -18,8 +18,9 @@ public interface ProductCatalogueRepo extends JpaRepository<Product , Long> {
     @Override
     void deleteById(Long aLong);
 
+    // save method
     @Override
-    <S extends Product> S save(S entity);
+    Product save(Product product);
 
 
 }

@@ -71,6 +71,9 @@ public class ProductController {
         productDto.setDescription(product.getDescription());
         productDto.setPrice(product.getPrice());
         productDto.setImageUrl(product.getImageUrl());
+        productDto.setCreatedAt(product.getCreatedAt());
+        productDto.setLastUpdatedAt(product.getLastUpdatedAt());
+        productDto.setState(product.getState());
         return productDto;
     }
     public Product convertProductDTOToProduct(ProductDto productDto){
@@ -81,6 +84,8 @@ public class ProductController {
         product.setDescription(productDto.getDescription());
         product.setPrice(productDto.getPrice());
         product.setImageUrl(productDto.getImageUrl());
+        product.setCreatedAt(productDto.getCreatedAt());
+        product.setLastUpdatedAt(productDto.getLastUpdatedAt());
         return product;
     }
 }

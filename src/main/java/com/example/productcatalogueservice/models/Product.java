@@ -7,10 +7,12 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 
 @Data
 @Entity
-public class Product extends BaseModel{
+public class Product extends BaseModel implements Serializable {
     private String name;
     private String imageUrl;
 
@@ -24,7 +26,10 @@ public class Product extends BaseModel{
 
 
     public Product() {
-
+        super();
+        this.setCreatedAt(new java.util.Date());
+        this.setState(State.ACTIVE);
+        this.setLastUpdatedAt(new java.util.Date());
     }
     public Product(long id, String name,  String description, String imageUrl, double price) {
         super();
@@ -32,6 +37,9 @@ public class Product extends BaseModel{
         this.description = description;
         this.imageUrl = imageUrl;
         this.price = price;
+        this.setCreatedAt(new java.util.Date());
+        this.setState(State.ACTIVE);
+        this.setLastUpdatedAt(new java.util.Date());
     }
 
     // Constructor 2: Matching (long id, String name, double price, String imageUrl)
@@ -40,6 +48,9 @@ public class Product extends BaseModel{
         this.name = name;
         this.price = price;
         this.imageUrl = imageUrl;
+        this.setCreatedAt(new java.util.Date());
+        this.setState(State.ACTIVE);
+        this.setLastUpdatedAt(new java.util.Date());
     }
 
 

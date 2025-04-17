@@ -4,19 +4,22 @@ import com.example.productcatalogueservice.dtos.ProductDto;
 import com.example.productcatalogueservice.models.Product;
 import com.example.productcatalogueservice.repository.ProductCatalogueRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-
+@Primary
 public class ProductCatalogueImpl implements ProductService{
 
     @Autowired
     ProductCatalogueRepo productCatalogueRepo;
 
-
+    @Autowired
+    RedisTemplate<String, Object> redisTemplate;
 
     @Override
     public List<Product> getAllProducts() {
@@ -29,10 +32,24 @@ public class ProductCatalogueImpl implements ProductService{
     }
 
     @Override
-    public Product getProductById(Long id) {
+    // implement get method using redis template
 
-        Optional<Product> optionalProduct= productCatalogueRepo.findById(id);
-        return optionalProduct.orElse(null);
+    public Product getProductById(Long id) {
+        String key = "product:" + id;
+        // fix the issue of getting null value in id , createdAt and lastUpdatedAt field in product
+        // when using redis template
+
+        Product product = (Product) redisTemplate.opsForValue().get(key);
+
+        //product.setId(id);
+        if (product == null) {
+            Optional<Product> optionalProduct = productCatalogueRepo.findById(id);
+            if (optionalProduct.isPresent()) {
+                product = optionalProduct.get();
+                redisTemplate.opsForValue().set(key, product);
+            }
+        }
+        return product;
     }
 
     @Override
@@ -54,6 +71,10 @@ public class ProductCatalogueImpl implements ProductService{
 
     @Override
     public Product createProduct(Product product) {
+        // save in redis cache
+        String key = "product:" + product.getId();
+        redisTemplate.opsForValue().set(key, product);
+        // save in database
         productCatalogueRepo.save(product);
         return product;
     }
