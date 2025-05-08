@@ -105,6 +105,11 @@ public class FakeStoreImpl implements ProductService{
         throw new Exception("Failed to create product");
     }
 
+    @Override
+    public Product getProductBasedOnUserRole(Long userId, Long productId) {
+        return null;
+    }
+
 
     private FakeStoreProductDto convertProductToFakeStoreDto(Product product){
         FakeStoreProductDto fakeStoreProductDto = new FakeStoreProductDto();

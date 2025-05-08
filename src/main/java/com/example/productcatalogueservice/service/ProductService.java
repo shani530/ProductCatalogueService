@@ -20,4 +20,8 @@ public interface ProductService {
 
 
     Product createProduct(Product product) throws Exception;
+
+
+
+    Product getProductBasedOnUserRole(Long userId, Long productId);
 }

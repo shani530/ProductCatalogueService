@@ -9,8 +9,8 @@ import lombok.Setter;
 
 import java.io.Serializable;
 
-
-@Data
+@Getter
+@Setter
 @Entity
 public class Product extends BaseModel implements Serializable {
     private String name;
@@ -23,36 +23,8 @@ public class Product extends BaseModel implements Serializable {
     private Category category;
 
     private State state;
+    private Type type;
 
-
-    public Product() {
-        super();
-        this.setCreatedAt(new java.util.Date());
-        this.setState(State.ACTIVE);
-        this.setLastUpdatedAt(new java.util.Date());
-    }
-    public Product(long id, String name,  String description, String imageUrl, double price) {
-        super();
-        this.name = name;
-        this.description = description;
-        this.imageUrl = imageUrl;
-        this.price = price;
-        this.setCreatedAt(new java.util.Date());
-        this.setState(State.ACTIVE);
-        this.setLastUpdatedAt(new java.util.Date());
-    }
-
-    // Constructor 2: Matching (long id, String name, double price, String imageUrl)
-    public Product(long id, String name, double price, String imageUrl) {
-        super();
-        this.name = name;
-        this.price = price;
-        this.imageUrl = imageUrl;
-        this.setCreatedAt(new java.util.Date());
-        this.setState(State.ACTIVE);
-        this.setLastUpdatedAt(new java.util.Date());
-    }
 
 
 }
-

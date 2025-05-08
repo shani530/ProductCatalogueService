@@ -23,6 +23,18 @@ public class ProductController {
 
     @Autowired
     ProductService productService;
+
+    @GetMapping("/products/{productId}/{userId}")
+    // get product by productId and userId
+    public ProductDto getProductBasedOnUserRole(
+            @PathVariable Long userId,
+            @PathVariable Long productId) {
+        Product product = productService.getProductBasedOnUserRole(userId,productId);
+       if(product == null) return null;
+        return convertProductToProductDTO(product);
+
+    }
+
     @GetMapping("/products")
       public List<ProductDto> getAllProducts(){
         List<ProductDto> productDtoList = new ArrayList<>();
@@ -74,6 +86,8 @@ public class ProductController {
         productDto.setCreatedAt(product.getCreatedAt());
         productDto.setLastUpdatedAt(product.getLastUpdatedAt());
         productDto.setState(product.getState());
+        productDto.setType(product.getType());
+
         return productDto;
     }
     public Product convertProductDTOToProduct(ProductDto productDto){
@@ -86,6 +100,8 @@ public class ProductController {
         product.setImageUrl(productDto.getImageUrl());
         product.setCreatedAt(productDto.getCreatedAt());
         product.setLastUpdatedAt(productDto.getLastUpdatedAt());
+        product.setState(productDto.getState());
+        product.setType(productDto.getType());
         return product;
     }
 }

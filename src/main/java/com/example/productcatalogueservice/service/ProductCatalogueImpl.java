@@ -1,12 +1,18 @@
 package com.example.productcatalogueservice.service;
 
 import com.example.productcatalogueservice.dtos.ProductDto;
+import com.example.productcatalogueservice.dtos.Role;
+import com.example.productcatalogueservice.dtos.UserDto;
 import com.example.productcatalogueservice.models.Product;
+import com.example.productcatalogueservice.models.Type;
 import com.example.productcatalogueservice.repository.ProductCatalogueRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +26,9 @@ public class ProductCatalogueImpl implements ProductService{
 
     @Autowired
     RedisTemplate<String, Object> redisTemplate;
+
+    @Autowired
+    RestTemplate restTemplate;
 
     @Override
     public List<Product> getAllProducts() {
@@ -77,6 +86,32 @@ public class ProductCatalogueImpl implements ProductService{
         // save in database
         productCatalogueRepo.save(product);
         return product;
+    }
+
+    @Override
+    public Product getProductBasedOnUserRole(Long userId, Long productId) {
+        // call userAuthentication service to get user by id
+        Product product = getProductById(productId);
+if (product.getType() == Type.PRIVATE) {
+    // Call userAuthentication service to check if the user is an admin
+    String url = "http://userservice/user/{userId}";
+
+    // Check if the user is an admin
+    ResponseEntity<UserDto> response = restTemplate.getForEntity(url,
+            UserDto.class, userId);
+    UserDto userDto = response.getBody();
+    if (userDto == null) {
+        return null;
+    }
+    if (userDto.getRole().equals(Role.ADMIN)) {
+        return product;
+    } else {
+        return null;
+    }
+}
+        else return product;
+
+
     }
 
 
